@@ -12,7 +12,7 @@
   []
   (println "Choo choo!"))
 
-;; Chapter 2
+;; Chapter 3
 
 (def asym-hobbit-body-parts [{:name "head" :size 3}
                              {:name "left-eye" :size 1}
@@ -58,3 +58,43 @@
             (into final-body-parts (set [part (matching-part part)])))
             []
             asym-body-parts))
+(defn hit
+  "Hit the hobbit with might"
+  [asym-body-parts]
+  (let [sym-parts (better-symmetrize-body-parts asym-body-parts)
+        body-part-size-sum (reduce + (map :size sym-parts))
+        target (rand body-part-size-sum)]
+    (loop [[part & remaining] sym-parts
+           accumulated-size (:size part)]
+      (if (> accumulated-size target)
+        part
+        (recur remaining (+ accumulated-size (:size (first remaining))))))))
+
+;; Exc 3.1
+(str [1 2 3])
+(apply str [1 2 3])
+(def avector [1 2 3])
+(def alist (list 1 2 3))
+(def ahashmap {:a 1 :b 2 :c 3})
+(def ahashset (hash-set 1 2 3 4 5 5 5 5 2 6 7))
+
+;; Exc 3.2
+(defn add100
+  "Adds 100 to a given number"
+  [n]
+  (+ n 100))
+(defn add100-2 [n] (+ n 100))
+
+;; Exc 3.3
+(defn dec-maker
+  "Create a custom decrementor"
+  [dec-by]
+  #(- % dec-by))
+
+(def dec42 (dec-maker 42))
+
+;; Exc 3.4
+(defn mapset
+  "Maps and return a set"
+  [fun input]
+  (set (map fun input)))
