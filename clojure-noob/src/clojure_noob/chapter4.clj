@@ -206,4 +206,51 @@
   [target additions]
   (apply conj target additions))
 
-(my-into [0] [1 2 3])
+(my-into [0] [1 2 3]) 
+
+;; partial
+(def add10 (partial + 10))
+(add10 5)
+
+(def add-missing-elements
+  (partial conj ["water" "earth" "air"]))
+
+(add-missing-elements "unobtainium" "adamantium")
+
+(defn my-partial
+  [partialized-fun & args]
+  (fn [& more-args]
+    (apply partialized-fun (into args more-args))))
+(def add20 (my-partial + 20))
+(add20 5)
+
+(defn lousy-logger
+  [log-level message]
+  (condp = log-level
+    :warn (clojure.string/lower-case message)
+    :emergency (clojure.string/upper-case message)))
+(lousy-logger :warn "WaRniNG")
+(def emergency (partial lousy-logger :emergency))
+(emergency "emeRgeNcy!!")
+
+;; complement
+(defn identify-humans
+  [social-security-numbers]
+  (filter #(not (vampire? %))
+          (map vampire-related-details social-security-numbers)))
+
+(def not-vampire? (complement vampire?))
+(defn identify-humans2
+  [social-security-numbers]
+  (filter not-vampire?
+          (map vampire-related-details social-security-numbers)))
+
+;; implement complement
+(defn my-complement
+  [fun]
+  (fn [& args]
+    (not (apply fun args))))
+(def my-pos? (my-complement neg?))
+(my-pos? 1)
+(my-pos? -1)
+
