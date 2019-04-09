@@ -43,3 +43,12 @@
   (filter #(>= (:glitter-index %) minimum-glitter) records))
 
 (glitter-filter 3 (mapify (parse (slurp filename))))
+
+;; Exc 4.1
+(into [] (map :name (glitter-filter 3 (mapify (parse (slurp filename))))))
+
+(defn glitter-filter-name-list
+  [minimum-glitter records]
+  (into [] (map :name (glitter-filter minimum-glitter records))))
+
+(glitter-filter-name-list 3 (mapify (parse (slurp filename))))
