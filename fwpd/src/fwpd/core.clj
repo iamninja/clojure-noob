@@ -36,6 +36,7 @@
                  (map vector vamp-keys unmapped-row)))
        rows))
 
+(mapify (parse (slurp filename)))
 (first (mapify (parse (slurp filename))))
 
 (defn glitter-filter
@@ -52,3 +53,15 @@
   (into [] (map :name (glitter-filter minimum-glitter records))))
 
 (glitter-filter-name-list 3 (mapify (parse (slurp filename))))
+
+;; Exc 4.2
+
+(defn append
+  [suspect]
+  (conj (mapify (parse (slurp filename))) suspect))
+
+(append {:name "A suspect" :glitter-index 3})
+
+
+
+
