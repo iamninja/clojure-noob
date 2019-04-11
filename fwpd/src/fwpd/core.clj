@@ -62,6 +62,26 @@
 
 (append {:name "A suspect" :glitter-index 3})
 
+;; Exc 4.3
+
+(defn validate
+  [record]
+  (and (contains? record :name) (string? (:name record))
+       (contains? record :glitter-index) (int? (:glitter-index record))))
+
+(def tester  {:name "Count Duckula", :glitter-index 10})
+(def tester2 {:name 5, :glitter-index 7})
+
+(validate tester)
+(validate tester2)
+
+(defn append-with-validate
+  [record]
+  (if (validate record) (append record)))
+
+(append-with-validate tester)
+(append-with-validate tester2)
+
 
 
 
